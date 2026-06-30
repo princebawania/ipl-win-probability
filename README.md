@@ -1,4 +1,4 @@
-# 🏏 IPL Win Probability Model
+# IPL Win Probability Model
 
 A ball-by-ball win probability model for IPL T20 matches, built end-to-end from raw data to a deployed interactive app — including a custom pressure metric, model calibration verification, and a data-driven analysis of which teams "choke" in winning positions.
 
@@ -6,9 +6,9 @@ A ball-by-ball win probability model for IPL T20 matches, built end-to-end from 
 
 ---
 
-## 📌 Problem Statement
+## Problem Statement
 
-Given the match state at any point in a second innings (runs required, balls remaining, wickets in hand), can we predict the chasing team's probability of winning — and can we trust that probability to actually mean what it says?
+Given the match state at any point in a second innings (runs required, balls remaining, wickets in hand), can we predict the chasing team's probability of winning and can we trust that probability to actually mean what it says?
 
 This project goes beyond a standard classification exercise by:
 - Engineering a custom **Pressure Index** that outperforms raw wickets/run-rate as a predictor
@@ -18,7 +18,7 @@ This project goes beyond a standard classification exercise by:
 
 ---
 
-## 🔍 Key Findings
+## Key Findings
 
 | Finding | Detail |
 |---|---|
@@ -32,7 +32,7 @@ This project goes beyond a standard classification exercise by:
 
 ---
 
-## 🗂️ Project Structure
+##  Project Structure
 
 ```
 ipl-win-probability/
@@ -47,13 +47,13 @@ ipl-win-probability/
 
 ---
 
-## 🧠 Approach
+##  Approach
 
-**1. Data Cleaning** — Standardized inconsistent team names (e.g., "Royal Challengers Bangalore" vs "Royal Challengers Bengaluru"), fixed mixed-type season values, removed Super Overs.
+**1. Data Cleaning** — Standardized inconsistent team names (e.g., "Royal Challengers Bangalore" vs "Royal Challengers Bengaluru"), fixed mixed-type season values and removed Super Overs.
 
 **2. Feature Engineering** — Built match-state features (runs required, balls remaining, wickets remaining, current/required run rate) plus a custom **Pressure Index** (RRR − CRR) to capture chase difficulty in a single number.
 
-**3. Modeling** — Compared Logistic Regression, Random Forest, and XGBoost. Random Forest performed best. Used a **time-based train/test split** (held out the most recent two seasons) rather than random split, to simulate realistic forecasting on unseen future matches.
+**3. Modeling** — Compared Logistic Regression, Random Forest, and XGBoost. Random Forest performed best. Used a **time-based train/test split** (held out the most recent two seasons) rather than a random split, to simulate realistic forecasting on unseen future matches.
 
 **4. Calibration Check** — Verified that predicted probabilities match real-world outcomes (e.g., when the model says 70%, teams actually win ~70% of the time) — a step most fresher projects skip entirely.
 
@@ -67,7 +67,7 @@ ipl-win-probability/
 
 ---
 
-## 🚀 Running Locally
+## Running Locally
 
 ```bash
 git clone https://github.com/princebawania/ipl-win-probability.git
@@ -78,18 +78,15 @@ streamlit run app.py
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 Python · pandas · scikit-learn · matplotlib · Streamlit
 
 ---
 
-## 📎 Data Source
+## Data Source
 
 Ball-by-ball IPL data (2008–2026), sourced from publicly available IPL match datasets.
 
 ---
 
-## 👤 Author
-
-**Prince** — IIT Bombay
