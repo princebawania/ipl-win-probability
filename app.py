@@ -202,6 +202,5 @@ else:
     predictive power — far more than wickets remaining alone. Team identity and venue were
     tested separately and added negligible predictive value once match state was accounted for.
 
-    ### Built by
-    Prince — [https://github.com/princebawania/ipl-win-probability/tree/main]
+    
     """)
