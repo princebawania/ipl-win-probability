@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="IPL Win Probability Model",
-    
+    page_icon="🏏",
     layout="wide"
 )
 
@@ -61,14 +61,14 @@ def predict_win_prob(runs_required, balls_remaining, wickets_remaining,
 # ---------------------------------------------------------
 # Sidebar navigation
 # ---------------------------------------------------------
-st.sidebar.title(" IPL Win Probability")
+st.sidebar.title("🏏 IPL Win Probability")
 page = st.sidebar.radio("Navigate", ["Live Predictor", "Choking Analysis", "About the Model"])
 
 # ===========================================================
 # PAGE 1 — Live Predictor
 # ===========================================================
 if page == "Live Predictor":
-    st.title(" IPL Win Probability Calculator")
+    st.title("🏏 IPL Win Probability Calculator")
     st.markdown("Enter the current match situation to see live win probability for the chasing team.")
 
     col1, col2 = st.columns(2)
@@ -81,12 +81,39 @@ if page == "Live Predictor":
     with col2:
         target = st.number_input("Target Score", min_value=1, max_value=300, value=180)
         runs_scored = st.number_input("Current Score", min_value=0, max_value=300, value=95)
-        overs_done = st.number_input("Overs Completed", min_value=0.0, max_value=20.0, value=12.0, step=0.1)
+
+        oc1, oc2 = st.columns(2)
+        with oc1:
+            overs_completed_int = st.number_input("Overs Completed", min_value=0, max_value=19, value=12, step=1)
+        with oc2:
+            balls_in_over = st.number_input("Balls in Current Over", min_value=0, max_value=5, value=0, step=1)
+
         wickets_fallen = st.number_input("Wickets Fallen", min_value=0, max_value=10, value=4)
 
+    st.markdown("**Current Batter** (optional — for skill-adjusted prediction)")
+    all_batters = sorted(batter_lookup['batter'].unique().tolist())
+    search_term = st.text_input(
+        "Type to search (matches first or last name)",
+        value="",
+        placeholder="e.g. 'Dhoni' or 'Sharma' or 'MS'"
+    ).strip().lower()
+
+    if search_term:
+        # Word-starts-with match: any word in the name starts with the search term
+        filtered_batters = [
+            name for name in all_batters
+            if any(word.lower().startswith(search_term) for word in name.split())
+        ]
+    else:
+        filtered_batters = all_batters
+
+    options = ["Use Average Player"] + filtered_batters
+    if not filtered_batters and search_term:
+        st.caption("No players found matching that search.")
+
     batter_name = st.selectbox(
-        "Current Batter (optional — for skill-adjusted prediction)",
-        ["Use Average Player"] + sorted(batter_lookup['batter'].unique().tolist())
+        f"Select Batter ({len(filtered_batters)} match{'es' if len(filtered_batters) != 1 else ''})",
+        options
     )
 
     if batter_name == "Use Average Player":
@@ -96,7 +123,7 @@ if page == "Live Predictor":
             batter_lookup['batter'] == batter_name, 'career_strike_rate'
         ].values[0]
 
-    balls_bowled = int(overs_done * 6)
+    balls_bowled = (overs_completed_int * 6) + balls_in_over
     runs_required = target - runs_scored
     balls_remaining = 120 - balls_bowled
     wickets_remaining = 10 - wickets_fallen
@@ -183,7 +210,7 @@ elif page == "Choking Analysis":
 # PAGE 3 — About
 # ===========================================================
 else:
-    st.title("About This Model")
+    st.title("ℹ️ About This Model")
     st.markdown("""
     ### What this is
     A ball-by-ball win probability model trained on IPL data (2008–2026), predicting the
@@ -202,5 +229,6 @@ else:
     predictive power — far more than wickets remaining alone. Team identity and venue were
     tested separately and added negligible predictive value once match state was accounted for.
 
-    
+    ### Built by
+    Prince, IIT Bombay — [GitHub repo link here]
     """)
