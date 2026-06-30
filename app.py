@@ -29,10 +29,12 @@ def load_supporting_data():
     with open('teams_venues.json') as f:
         tv = json.load(f)
     choke_stats = pd.read_csv('choke_stats.csv')
-    return batter_lookup, tv['teams'], tv['venues'], choke_stats
+    with open('team_batters.json') as f:
+        team_batters = json.load(f)
+    return batter_lookup, tv['teams'], tv['venues'], choke_stats, team_batters
 
 model = load_model()
-batter_lookup, teams_list, venues_list, choke_stats = load_supporting_data()
+batter_lookup, teams_list, venues_list, choke_stats, team_batters = load_supporting_data()
 median_strike_rate = batter_lookup['career_strike_rate'].median()
 
 # ---------------------------------------------------------
@@ -90,8 +92,11 @@ if page == "Live Predictor":
 
         wickets_fallen = st.number_input("Wickets Fallen", min_value=0, max_value=10, value=4)
 
-    st.markdown("**Current Batter** (optional — for skill-adjusted prediction)")
-    all_batters = sorted(batter_lookup['batter'].unique().tolist())
+    st.markdown(f"**Current Batter** (optional — for skill-adjusted prediction, showing {batting_team} players)")
+    team_player_list = team_batters.get(batting_team, [])
+    # Only keep players we actually have a skill rating for
+    all_batters = sorted([p for p in team_player_list if p in set(batter_lookup['batter'])])
+
     search_term = st.text_input(
         "Type to search (matches first or last name)",
         value="",
@@ -230,5 +235,5 @@ else:
     tested separately and added negligible predictive value once match state was accounted for.
 
     ### Built by
-    Prince — [https://github.com/princebawania/ipl-win-probability/tree/main]
+    Prince, IIT Bombay — [GitHub repo link here]
     """)
