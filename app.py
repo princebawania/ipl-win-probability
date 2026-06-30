@@ -63,14 +63,14 @@ def predict_win_prob(runs_required, balls_remaining, wickets_remaining,
 # ---------------------------------------------------------
 # Sidebar navigation
 # ---------------------------------------------------------
-st.sidebar.title("🏏 IPL Win Probability")
+st.sidebar.title("IPL Win Probability")
 page = st.sidebar.radio("Navigate", ["Live Predictor", "Choking Analysis", "About the Model"])
 
 # ===========================================================
 # PAGE 1 — Live Predictor
 # ===========================================================
 if page == "Live Predictor":
-    st.title("🏏 IPL Win Probability Calculator")
+    st.title("IPL Win Probability Calculator")
     st.markdown("Enter the current match situation to see live win probability for the chasing team.")
 
     col1, col2 = st.columns(2)
@@ -215,7 +215,7 @@ elif page == "Choking Analysis":
 # PAGE 3 — About
 # ===========================================================
 else:
-    st.title("ℹ️ About This Model")
+    st.title("About This Model")
     st.markdown("""
     ### What this is
     A ball-by-ball win probability model trained on IPL data (2008–2026), predicting the
@@ -235,5 +235,5 @@ else:
     tested separately and added negligible predictive value once match state was accounted for.
 
     ### Built by
-    Prince, IIT Bombay — [GitHub repo link here]
+    Prince — [https://github.com/princebawania/ipl-win-probability/tree/main]
     """)
