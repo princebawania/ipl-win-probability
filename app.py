@@ -230,5 +230,5 @@ else:
     tested separately and added negligible predictive value once match state was accounted for.
 
     ### Built by
-    Prince, IIT Bombay — [GitHub repo link here]
+    Prince — [https://github.com/princebawania/ipl-win-probability/tree/main]
     """)
